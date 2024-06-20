@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 혹시 namespace가 바뀌었을 때는 프로젝트 클린을 해줘야 한다. 자동으로 설정되어있어도 안 되고 서버 재실행 해도 해결 안된다. 프로젝트 클린해야된댜.  -->
+<mapper	namespace="com.lyh.militaryTrainingCenter.mapper.SoldierMapper">
+	
+	<!-- 군번 중복 조회 -->
+	<select id="selectSoldierByArmyNumber" resultType="String" parameterType="String">
+		SELECT
+			army_number AS armyNumber
+		FROM
+			soldier
+		WHERE
+			army_number = #{armyNumber}		
+	</select>
+	
+	<insert id="addSoldier" parameterType="map">
+		INSERT INTO soldier(
+			army_number, 
+			password, 
+			military_rank, 
+			name
+		) VALUES (
+			#{hiddenArmyNumber},
+			#{passwordCheck},
+			#{militaryRank},
+			#{name}
+		);
+	</insert>
+</mapper>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lyh.militaryTrainingCenter.mapper.TrainingMapper">
+	
+	<!-- 대분류 [장병기본훈련 과목] 선택 -->
+	<select id="selectSoldierBasicTraining" resultType="String">
+		SELECT
+			subject_name AS subjectName
+		FROM
+			soldier_basic_training
+	</select>
+	
+	<!-- 중분류 [단계] 출력 -->
+	<select id="selectLevel" parameterType="String" resultType="Map">
+		SELECT 
+			l.level_name AS levelName
+		FROM
+			level AS l
+		JOIN
+			soldier_basic_training AS s 
+		ON 
+			l.subject_key = s.subject_key
+		WHERE
+			s.subject_name = #{subjectName}
+	</select>
+	
+	<!-- 소분류 [술기] 출력 -->
+	<select id="selectProcess">
+		SELECT 
+			p.process_name AS processName
+		FROM
+			process AS p
+		JOIN
+			level AS l
+		ON 
+			p.level_key = l.level_key
+		WHERE
+			l.level_name = #{levelName}
+	</select>
+	
+	<!-- [상세내용] 출력 -->
+	<select id="selectDetails" resultType="String" parameterType="String">
+		SELECT
+			details
+		FROM
+			process
+		WHERE
+			process_name = #{processName}	
+	</select>
+</mapper>
